@@ -85,7 +85,9 @@ declare -A kernels=(
     [google_redbull_drivers_staging_qcacld-3.0]=android-11.0.0_r0.66 # March 2021
     [google_redbull_techpack_audio]=android-11.0.0_r0.66 # March 2021
     [google_redbull_arch_arm64_boot_dts_vendor]=android-11.0.0_r0.66 # March 2021
+
     [google_marlin]=android-10.0.0_r0.7 # October 2019
+    [google_wahoo]=android-11.0.0_r0.34 # December 2020 (end-of-life)
 )
 
 independent=(
@@ -109,6 +111,10 @@ independent=(
     platform_packages_apps_Updater
     script
     Vanadium
+
+    device_google_muskie
+    device_google_taimen
+    device_google_wahoo
 )
 
 for repo in "${aosp_forks[@]}"; do
