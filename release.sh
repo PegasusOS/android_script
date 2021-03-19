@@ -32,7 +32,7 @@ get_radio_image() {
     grep "require version-$1" vendor/$2/vendor-board-info.txt | cut -d '=' -f 2 | tr '[:upper:]' '[:lower:]' || exit 1
 }
 
-if [[ $1 == crosshatch || $1 == blueline || $1 == bonito || $1 == sargo || $1 == coral || $1 == flame || $1 == sunfish || $1 == bramble || $1 == redfin ]]; then
+if [[ $1 == marlin || $1 == sailfish || $1 == crosshatch || $1 == blueline || $1 == bonito || $1 == sargo || $1 == coral || $1 == flame || $1 == sunfish || $1 == bramble || $1 == redfin ]]; then
     BOOTLOADER=$(get_radio_image bootloader google_devices/$1)
     RADIO=$(get_radio_image baseband google_devices/$1)
     PREFIX=aosp_
@@ -48,11 +48,16 @@ PRODUCT=$1
 TARGET_FILES=$DEVICE-target_files-$BUILD.zip
 
 if [[ $DEVICE != hikey* ]]; then
+    if [[ $DEVICE != marlin || $DEVICE != sailfish ]]; then
     AVB_PKMD="$KEY_DIR/avb_pkmd.bin"
     AVB_ALGORITHM=SHA256_RSA4096
     [[ $(stat -c %s "$KEY_DIR/avb_pkmd.bin") -eq 520 ]] && AVB_ALGORITHM=SHA256_RSA2048
+    fi
 
-    if [[ $DEVICE == blueline || $DEVICE == crosshatch || $1 == bonito || $1 == sargo ]]; then
+    if [[ $DEVICE == marlin || $DEVICE == sailfish ]]; then
+    VERITY_SWITCHES=(--replace_verity_public_key "$KEY_DIR/verity_key.pub" --replace_verity_private_key "$KEY_DIR/verity"
+                     --replace_verity_keyid "$KEY_DIR/verity.x509.pem")
+    elif [[ $DEVICE == blueline || $DEVICE == crosshatch || $1 == bonito || $1 == sargo ]]; then
         VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" --avb_vbmeta_algorithm $AVB_ALGORITHM
                          --avb_system_key "$KEY_DIR/avb.pem" --avb_system_algorithm $AVB_ALGORITHM)
         EXTRA_OTA=(--retrofit_dynamic_partitions)

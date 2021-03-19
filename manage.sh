@@ -28,6 +28,7 @@ aosp_forks=(
     device_google_redfin
     device_google_sunfish
     device_google_sunfish-sepolicy
+    device_google_marlin
     kernel_configs
     platform_art
     platform_bionic
@@ -84,6 +85,7 @@ declare -A kernels=(
     [google_redbull_drivers_staging_qcacld-3.0]=android-11.0.0_r0.66 # March 2021
     [google_redbull_techpack_audio]=android-11.0.0_r0.66 # March 2021
     [google_redbull_arch_arm64_boot_dts_vendor]=android-11.0.0_r0.66 # March 2021
+    [google_marlin]=android-10.0.0_r0.7 # October 2019
 )
 
 independent=(
