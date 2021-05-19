@@ -88,6 +88,9 @@ cd $RELEASE_OUT || exit 1
 if [[ $DEVICE == hikey* ]]; then
     source otatools/device/linaro/hikey/factory-images/generate-factory-images-$DEVICE.sh || exit 1
 else
+    if [[ $DEVICE == marlin || $DEVICE == sailfish ]]; then
+        unset AVB_PKMD
+    fi
     source otatools/device/common/generate-factory-images-common.sh || exit 1
 fi
 
